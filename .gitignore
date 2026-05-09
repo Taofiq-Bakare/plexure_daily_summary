@@ -1,4 +1,14 @@
 data/
 .DS_Store
-data/
-__MACOSX/._sales_transactions.json
+__MACOSX/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+*.egg-info/
+dist/
+build/
+
