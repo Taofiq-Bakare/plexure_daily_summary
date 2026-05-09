@@ -1,12 +1,16 @@
 from typing import List
 import pandas as pd
-from pandas import DataFrame
+from pandas import DataFrame, Series
+
+
+def _untagged(df: DataFrame) -> Series:
+    return df["_rejection_reason"].eq("")
 
 
 def validate_transaction_id(data: DataFrame, col: str = "transaction_id") -> DataFrame:
     df = data.copy()
-    empty_mask = df["_rejection_reason"].eq("") & df[col].astype(str).str.strip().eq("")
-    duplicate_mask = df["_rejection_reason"].eq("") & ~empty_mask & df[col].duplicated(keep="first")
+    empty_mask = _untagged(df) & df[col].astype(str).str.strip().eq("")
+    duplicate_mask = _untagged(df) & ~empty_mask & df[col].duplicated(keep="first")
     df.loc[empty_mask, "_rejection_reason"] = "missing_transaction_id"
     df.loc[duplicate_mask, "_rejection_reason"] = "duplicate_transaction_id"
     return df
@@ -14,10 +18,8 @@ def validate_transaction_id(data: DataFrame, col: str = "transaction_id") -> Dat
 
 def validate_store_id(data: DataFrame, valid_stores: List[str], col: str = "store_id") -> DataFrame:
     df = data.copy()
-    missing_mask = df["_rejection_reason"].eq("") & (
-        df[col].isna() | df[col].astype(str).str.strip().eq("")
-    )
-    invalid_mask = df["_rejection_reason"].eq("") & ~missing_mask & ~df[col].isin(valid_stores)
+    missing_mask = _untagged(df) & (df[col].isna() | df[col].astype(str).str.strip().eq(""))
+    invalid_mask = _untagged(df) & ~missing_mask & ~df[col].isin(valid_stores)
     df.loc[missing_mask, "_rejection_reason"] = "missing_store"
     df.loc[invalid_mask, "_rejection_reason"] = "invalid_store_id"
     return df
@@ -25,15 +27,13 @@ def validate_store_id(data: DataFrame, valid_stores: List[str], col: str = "stor
 
 def validate_timestamp(data: DataFrame, col: str = "timestamp") -> DataFrame:
     df = data.copy()
-    mask = df["_rejection_reason"].eq("") & df[col].isna()
-    df.loc[mask, "_rejection_reason"] = "invalid_timestamp"
+    df.loc[_untagged(df) & df[col].isna(), "_rejection_reason"] = "invalid_timestamp"
     return df
 
 
 def validate_net_amount(data: DataFrame, col: str = "net_amount") -> DataFrame:
     df = data.copy()
-    mask = df["_rejection_reason"].eq("") & pd.to_numeric(df[col], errors="coerce").isna()
-    df.loc[mask, "_rejection_reason"] = "non_numeric_amount"
+    df.loc[_untagged(df) & pd.to_numeric(df[col], errors="coerce").isna(), "_rejection_reason"] = "non_numeric_amount"
     return df
 
 
@@ -47,8 +47,10 @@ def run_pipeline(data: DataFrame, valid_stores: List[str]) -> DataFrame:
 
 
 def aggregate_data(transaction_data: DataFrame, stores_data: DataFrame) -> DataFrame:
-    valid = transaction_data[transaction_data["_rejection_reason"].eq("")].copy()
-    valid["date"] = pd.to_datetime(valid["timestamp"], errors="coerce").dt.date
+    valid = (
+        transaction_data[transaction_data["_rejection_reason"].eq("")]
+        .assign(date=lambda df: pd.to_datetime(df["timestamp"], errors="coerce").dt.date)
+    )
 
     df_agg = (
         valid.groupby(["date", "store_id"])
