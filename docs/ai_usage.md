@@ -22,10 +22,10 @@ This document covers where, when, and how AI (Claude via Claude Code CLI) was us
 
 **What:** Asked AI to review the full solution against the spec. It identified two bugs in `aggregate_data`:
 
-| Bug | Detail |
-|-----|--------|
-| Dead column reorder | `df_fact[["date", "store_id", "store_name", ...]]` result was not assigned back, so `store_name` ended up last in the CSV |
-| Missing `index=False` | `to_csv()` wrote a spurious leading integer index column |
+| Bug                  | Detail                                                                                                              |
+|----------------------|---------------------------------------------------------------------------------------------------------------------|
+| Dead column reorder  | `df_fact[["date", "store_id", "store_name", ...]]` result was not assigned back, so `store_name` ended up last in the CSV |
+| Missing `index=False` | `to_csv()` wrote a spurious leading integer index column                                                           |
 
 It also flagged three minor observations: `validate_transaction_id` not guarding existing rejections, `tx-1011` being unrecoverable without field normalisation, and an unnecessary `list(set(...))` call.
 
@@ -40,6 +40,7 @@ It also flagged three minor observations: `validate_transaction_id` not guarding
 **When:** After deciding to extend the solution with a CLI tool.
 
 **What:** Asked AI to outline a CLI approach without writing code. It proposed:
+
 - A `src/plexure/` package split into `pipeline.py`, `io.py`, and `cli.py`
 - `typer` as the CLI framework (over `click`) for its type-hint driven interface
 - A `--quality-report` flag to export rejected rows
@@ -59,6 +60,7 @@ It also flagged three minor observations: `validate_transaction_id` not guarding
 ### Red — failing tests
 
 AI wrote all tests across three files (`test_pipeline.py`, `test_io.py`, `test_cli.py`) covering:
+
 - Each validator in isolation, including the "does not overwrite existing rejection" guard that was missing from the original notebook
 - `run_pipeline` integration test against a fixture mirroring the real 13-row dataset
 - `aggregate_data` metrics verified per store per day
@@ -79,6 +81,7 @@ AI wrote `pipeline.py`, `io.py`, and `cli.py`. All 46 tests passed on first run.
 ### Refactor
 
 AI proposed two changes:
+
 1. Extract `_untagged(df)` helper to remove the repeated `df["_rejection_reason"].eq("")` pattern across all validators
 2. Replace slice mutation (`valid["date"] = ...`) with `.assign()` to avoid `SettingWithCopyWarning`
 
@@ -91,6 +94,7 @@ AI proposed two changes:
 ## 5. Documentation
 
 **What AI wrote:**
+
 - `CLAUDE.md` — project conventions, TDD workflow, layering rules, CLI design, business rules for future AI agents working in this repo
 - `docs/solution_analysis.md` — structured analysis of the notebook solution including bug findings
 - `README.md` — full usage guide, input schemas, business rules, data quality table, project structure, dev instructions
@@ -103,12 +107,12 @@ AI proposed two changes:
 
 ## Summary
 
-| Area | AI role | Validated by |
-|------|---------|-------------|
-| Type coercion loop | Generated snippet | Inspecting dtype output |
-| Bug identification | Code review | Manual CSV inspection |
-| CLI design | Architecture outline | Review before approving |
-| Tests | Wrote all 46 | Confirmed red before green |
-| Implementation | Wrote all three modules | 46/46 tests + smoke test |
-| Refactor | Proposed two improvements | Tests still passing |
-| Documentation | Wrote all docs | Manual read + live verification |
+| Area                | AI role                  | Validated by                    |
+|---------------------|--------------------------|---------------------------------|
+| Type coercion loop  | Generated snippet        | Inspecting dtype output         |
+| Bug identification  | Code review              | Manual CSV inspection           |
+| CLI design          | Architecture outline     | Review before approving         |
+| Tests               | Wrote all 46             | Confirmed red before green      |
+| Implementation      | Wrote all three modules  | 46/46 tests + smoke test        |
+| Refactor            | Proposed two improvements| Tests still passing             |
+| Documentation       | Wrote all docs           | Manual read + live verification |
