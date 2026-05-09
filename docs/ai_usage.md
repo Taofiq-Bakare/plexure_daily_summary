@@ -22,10 +22,10 @@ This document covers where, when, and how AI (Claude via Claude Code CLI) was us
 
 **What:** Asked AI to review the full solution against the spec. It identified two bugs in `aggregate_data`:
 
-| Bug                  | Detail                                                                                                              |
-|----------------------|---------------------------------------------------------------------------------------------------------------------|
-| Dead column reorder  | `df_fact[["date", "store_id", "store_name", ...]]` result was not assigned back, so `store_name` ended up last in the CSV |
-| Missing `index=False` | `to_csv()` wrote a spurious leading integer index column                                                           |
+| Bug                   | Detail                                                                          |
+|-----------------------|---------------------------------------------------------------------------------|
+| Dead column reorder   | Column selection result not assigned back — `store_name` ended up last in CSV   |
+| Missing `index=False` | `to_csv()` wrote a spurious leading integer index column                        |
 
 It also flagged three minor observations: `validate_transaction_id` not guarding existing rejections, `tx-1011` being unrecoverable without field normalisation, and an unnecessary `list(set(...))` call.
 
