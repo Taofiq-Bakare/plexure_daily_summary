@@ -1,0 +1,93 @@
+[
+  {
+    "transaction_id": "tx-1001",
+    "store_id": "akl-001",
+    "timestamp": "2026-04-01T10:00:00+13:00",
+    "customer_id": "cust-001",
+    "net_amount": 115.00
+  },
+  {
+    "transaction_id": "tx-1007",
+    "store_id": "akl-001",
+    "timestamp": "2026-13-01T10:00:00+13:00",
+    "customer_id": "cust-006",
+    "net_amount": 34.50
+  },
+  {
+    "transaction_id": "tx-1003",
+    "store_id": "wlg-001",
+    "timestamp": "2026-04-01T09:30:00+13:00",
+    "customer_id": "cust-003",
+    "net_amount": 92.00
+  },
+  {
+    "transaction_id": "tx-1011",
+    "store": "chc-001",
+    "timestamp": "2026-04-02T12:00:00+13:00",
+    "customer_id": "cust-010",
+    "net_amount": 69.00
+  },
+  {
+    "transaction_id": "tx-1002",
+    "store_id": "akl-001",
+    "timestamp": "2026-04-01T12:00:00+13:00",
+    "customer_id": "cust-002",
+    "net_amount": 57.50
+  },
+  {
+    "transaction_id": "tx-1008",
+    "store_id": "unknown-999",
+    "timestamp": "2026-04-02T10:00:00+13:00",
+    "customer_id": "cust-007",
+    "net_amount": 23.00
+  },
+  {
+    "transaction_id": "tx-1004",
+    "store_id": "chc-001",
+    "timestamp": "2026-04-02T11:00:00+13:00",
+    "customer_id": "cust-004",
+    "net_amount": 46.00
+  },
+  {
+    "transaction_id": "tx-1010",
+    "store_id": "wlg-001",
+    "timestamp": "2026-04-02T18:00:00+13:00",
+    "customer_id": "cust-009",
+    "net_amount": "twenty"
+  },
+  {
+    "transaction_id": "tx-1005",
+    "store_id": "wlg-001",
+    "timestamp": "2026-04-02T14:30:00+13:00",
+    "customer_id": "cust-003",
+    "net_amount": 34.50
+  },
+  {
+    "transaction_id": "",
+    "store_id": "akl-001",
+    "timestamp": "2026-04-02T15:30:00+13:00",
+    "customer_id": "cust-011",
+    "net_amount": 11.50
+  },
+  {
+    "transaction_id": "tx-1006",
+    "store_id": "wlg-001",
+    "timestamp": "2026-04-02T16:10:00+13:00",
+    "customer_id": "cust-005",
+    "net_amount": 138.00
+  },
+  {
+    "transaction_id": "tx-1004",
+    "store_id": "chc-001",
+    "timestamp": "2026-04-02T11:00:00+13:00",
+    "customer_id": "cust-004",
+    "net_amount": 46.00
+  },
+  {
+    "transaction_id": "tx-1009",
+    "store_id": "akl-002",
+    "timestamp": "2026-04-02T15:00:00+13:00",
+    "customer_id": "cust-008",
+    "net_amount": null
+  }
+]

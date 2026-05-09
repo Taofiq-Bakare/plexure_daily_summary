@@ -1,4 +1,7 @@
-data/
+data/results/
+data/*.zip
+data/*.json
+data/*.csv
 .DS_Store
 __MACOSX/
 
