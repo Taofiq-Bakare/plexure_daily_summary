@@ -1,4 +1,7 @@
-data/
+
 .DS_Store
-data/
+
 __MACOSX/._sales_transactions.json
+**.zip
+**.pyc
+**__MACOSX/
