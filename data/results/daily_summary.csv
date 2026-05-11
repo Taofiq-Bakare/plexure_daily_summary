@@ -1,0 +1,5 @@
+date,store_id,store_name,total_sales_nzd,unique_customers,average_invoice_nzd,max_invoice_nzd,min_invoice_nzd
+2026-04-01,akl-001,Auckland Central,172.5,2,86.25,115.0,57.5
+2026-04-01,wlg-001,Wellington Lambton Quay,92.0,1,92.0,92.0,92.0
+2026-04-02,chc-001,Christchurch Riccarton,46.0,1,46.0,46.0,46.0
+2026-04-02,wlg-001,Wellington Lambton Quay,172.5,2,86.25,138.0,34.5

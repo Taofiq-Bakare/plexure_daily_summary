@@ -1,0 +1,8 @@
+transaction_id,store_id,timestamp,customer_id,net_amount,store,_rejection_reason
+tx-1007,akl-001,,cust-006,34.5,,invalid_timestamp
+tx-1011,,2026-04-02 12:00:00+13:00,cust-010,69.0,chc-001,missing_store
+tx-1008,unknown-999,2026-04-02 10:00:00+13:00,cust-007,23.0,,invalid_store_id
+tx-1010,wlg-001,2026-04-02 18:00:00+13:00,cust-009,,,non_numeric_amount
+,akl-001,2026-04-02 15:30:00+13:00,cust-011,11.5,,missing_transaction_id
+tx-1004,chc-001,2026-04-02 11:00:00+13:00,cust-004,46.0,,duplicate_transaction_id
+tx-1009,akl-002,2026-04-02 15:00:00+13:00,cust-008,,,non_numeric_amount
